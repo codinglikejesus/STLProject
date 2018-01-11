@@ -6,7 +6,7 @@ int main()
 {
     int number = 0;
     int cube = 0;
-    cout << "Enter a number: " << endl;
+    cout << "Enter a number: ";
     cin >> number;
     cube = number * number * number;
     if (number == 0){
