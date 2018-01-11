@@ -9,7 +9,10 @@ int main()
     cout << "Enter a number: " << endl;
     cin >> number;
     cube = number * number * number;
-    if(cube / number / number == number){
+    if (number == 0){
+        cout << "The cube of " << number << " is " << cube << "." << endl;
+    }
+    else if(cube / number / number == number){
         cout << "The cube of " << number << " is " << cube << "." << endl;
     }
     else{
