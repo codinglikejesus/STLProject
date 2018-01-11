@@ -10,9 +10,25 @@ int main()
     int i= 1;
     while( luku >= i){
         if( i % 3 == 0){
-            cout << "zip" << endl;
+            if( i % 7 == 0){
+                cout << "zipboing" << endl;
+            }
+            else{
+                cout << "zip" << endl;
+            }
+            i++;
+
+        }
+        else if( i % 7 == 0){
+            if(i % 3 == 0){
+                cout << "zipboing" << endl;
+            }
+            else{
+                cout << "boing" << endl;
+            }
             i++;
         }
+
         else{
             cout << i << endl;
             i++;
