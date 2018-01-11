@@ -21,7 +21,7 @@ int main()
         }
         else if( i % 7 == 0){
             if(i % 3 == 0){
-                cout << "zipboing" << endl;
+                cout << "zip boing" << endl;
             }
             else{
                 cout << "boing" << endl;
