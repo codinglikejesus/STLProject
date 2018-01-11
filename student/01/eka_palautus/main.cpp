@@ -13,17 +13,9 @@ int main()
 
     std::cout << "Pleased to meet you, " << nimi << "!" << std::endl;
 
-    if(ika == 0){
-        std::cout << "In your next birthday you'll be 1 year old";
-    }
 
-    else if(ika < 0){
-        std::cout << "Your age cannot be negative";
-    }
+    std::cout << "In your next birthday you'll be " << ika + 1 << " years old";
 
-    else{
-        std::cout << "In your next birthday you'll be " << ika + 1 << " years old";
-    }
 
 
     return EXIT_SUCCESS;
