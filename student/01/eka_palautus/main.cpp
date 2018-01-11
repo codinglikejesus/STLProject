@@ -14,7 +14,7 @@ int main()
     std::cout << "Pleased to meet you, " << nimi << "!" << std::endl;
 
 
-    std::cout << "In your next birthday you'll be " << ika + 1 << " years old";
+    std::cout << "In your next birthday you'll be " << ika + 1 << " years old!";
 
 
 
