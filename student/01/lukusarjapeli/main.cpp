@@ -11,7 +11,7 @@ int main()
     while( luku >= i){
         if( i % 3 == 0){
             if( i % 7 == 0){
-                cout << "zipboing" << endl;
+                cout << "zip boing" << endl;
             }
             else{
                 cout << "zip" << endl;
