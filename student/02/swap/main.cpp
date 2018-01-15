@@ -1,7 +1,7 @@
 #include <cstdlib>
 #include <iostream>
 
-// TODO: Kirjoita funktion swap maarittely tahan
+
 void swap(int& i,int& j){
     int x = 0;
     x = i;
