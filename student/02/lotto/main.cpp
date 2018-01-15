@@ -4,7 +4,7 @@
 
 using namespace std;
 
-int factorial(unsigned long int number){
+unsigned long int factorial(unsigned long int number){
     unsigned long int result = 1;
     for(int i = 1; i <= number; ++i){
         result *= i;
@@ -12,7 +12,7 @@ int factorial(unsigned long int number){
     return result;
 }
 
-int odds_of_winning(int drawn_balls, int ball_amount){
+unsigned long int odds_of_winning(int drawn_balls, int ball_amount){
     unsigned long int odds = 0;
     unsigned long int osoittaja = 0;
     unsigned long int nimittaja = 0;
