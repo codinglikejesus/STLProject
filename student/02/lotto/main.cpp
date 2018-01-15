@@ -43,7 +43,7 @@ int main()
     int drawn_balls;
     cout << "Enter the total number of lottery balls: ";
     cin >> ball_amount;
-    cout << "Enter the number of drawn balls: ";
+    cout << "Enter the number of the drawn balls: ";
     cin >> drawn_balls;
     if(error_check(drawn_balls, ball_amount) == 0){
         cout << "The probability of guessing all " << drawn_balls
