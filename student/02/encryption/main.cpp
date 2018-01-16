@@ -67,5 +67,6 @@ int main()
     }
     string encrypted_text = encrypter(password, text);
     cout << "Encrypted text: " << encrypted_text;
+    int c=2;
 }
 
