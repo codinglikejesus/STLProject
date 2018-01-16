@@ -51,7 +51,7 @@ int main()
     }
     for( char kirjain = 'a'; kirjain < 'z'; ++kirjain){
         if( password.find(kirjain) == string::npos){
-            cout << "Error! The encryption key must contain all alphabets a-z";
+            cout << "Error! The encryption key must contain all alphabets a-z.";
             exit(EXIT_FAILURE);
         }
     }
