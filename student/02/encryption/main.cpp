@@ -15,7 +15,7 @@ string encrypter(string password, string text){
     letter = password.at(i);
     for(int j = 0; j < pituus; j++){
         i = 0;
-        for(char kirjain = 'a'; kirjain < 'z'; kirjain ++){
+        for(char kirjain = 'a'; kirjain <= 'z'; kirjain ++){
             if(text.string::at(j) == kirjain){
                 encrypted_text += password.string::at(i);
             }
@@ -36,22 +36,23 @@ int main()
     cin >> password;
     if(password.length() != 26){
         cout << "Error! The encryption key must contain 26 characters.";
-        EXIT_FAILURE;
+        exit(EXIT_FAILURE);
     }
     for(int i = 0; i < 26; i++){
         if(islower(password.at(i))){
 
+
         }
         else{
             cout << "Error! The encryption key must contain only lower case characters.";
-            EXIT_FAILURE;
+            exit(EXIT_FAILURE);
         }
 
     }
     for( char kirjain = 'a'; kirjain < 'z'; ++kirjain){
         if( password.find(kirjain) == string::npos){
             cout << "Error! The encryption key must contain all alphabets a-z";
-            EXIT_FAILURE;
+            exit(EXIT_FAILURE);
         }
     }
     cout << "Enter the text to be encrypted: ";
@@ -62,7 +63,7 @@ int main()
         }
         else{
             cout << "Error! The encryption key must contain only lower case characters.";
-            EXIT_FAILURE;
+            exit(EXIT_FAILURE);
         }
     }
     string encrypted_text = encrypter(password, text);
