@@ -18,19 +18,56 @@ void read_integers(std::vector< int >& ints, int count)
 bool same_values(std::vector<int> integers)
 {
 
+for(int i = 1; i < integers.size(); ++i){
+    if(integers.at(i) == integers.at(i-1)){
+
+    }
+    else
+    {
+        return false;
+    }
+    return true;
+}
 }
 
 bool is_ordered_ascending(std::vector<int> integers)
 {
+    for(int i = 1; i < integers.size(); ++i){
+        if(integers.at(i) >= integers.at(i-1) - integers.at(i)){
+
+        }
+        else{
+            return false;
+        }
+        return true;
+    }
 
 }
 bool is_arithmetic_series(std::vector<int> integers)
 {
+    for(int i = 1; i < integers.size(); i++){
+        if(integers.at(i)-integers.at(i-1) == integers.at(i+1) - integers.at(i)){
+
+        }
+        else{
+            return false;
+        }
+        return true;
+    }
 
 }
 
 bool is_geometric_series(std::vector<int> integers)
 {
+    for(int i = 1; i < integers.size(); i++){
+        if(integers.at(i)/integers.at(i-1) == integers.at(i+1) / integers.at(i)){
+
+        }
+        else{
+            return false;
+        }
+        return true;
+    }
 
 }
 
