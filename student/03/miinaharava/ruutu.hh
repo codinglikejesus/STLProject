@@ -11,14 +11,19 @@ class Ruutu
 {
 public:
     Ruutu(int x, int y, int arvo, Lauta*);
+    void tulostaDebug(std::ostream&);
     void tulosta(std::ostream&);
-    void uusi_ruutu(int x, int y, bool onko_miinaa, Lauta*);
     void laskeViereiset();
     bool onkoValmis();
     bool onkoLippu();
     void poistaLippu();
     void lisaaLippu();
     bool avaa();
+private:
+    int x_;
+    int y_;
+    int arvo_;
+    Lauta* lauta_;
 
 };
 

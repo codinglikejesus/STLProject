@@ -1,13 +1,17 @@
 #include "ruutu.hh"
 
-Ruutu::Ruutu(int x, int y, int arvo, Lauta*)
+Ruutu::Ruutu(int x, int y, int arvo, Lauta* lauta):x_(x), y_(y), arvo_(arvo), lauta_(lauta)
 {
 
 }
-
-void Ruutu::tulosta(std::ostream&)
+void Ruutu::tulostaDebug(std::ostream& virta)
 {
+    virta << arvo_;
+}
 
+void Ruutu::tulosta(std::ostream& virta)
+{
+    virta << ".";
 }
 
 void Ruutu::laskeViereiset()
@@ -15,10 +19,7 @@ void Ruutu::laskeViereiset()
 
 }
 
-void Ruutu::uusi_ruutu(int x, int y, bool onko_miinaa, Lauta*)
-{
 
-}
 bool Ruutu::onkoValmis()
 {
 
