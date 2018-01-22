@@ -18,8 +18,8 @@ void read_integers(std::vector< int >& ints, int count)
 bool same_values(std::vector<int> integers)
 {
 
-for(int i = 1; i < integers.size(); ++i){
-    if(integers.at(i) == integers.at(i-1)){
+for(int i = 0; i < integers.size() - 1; ++i){
+    if(integers.at(i + 1) == integers.at(i)){
 
     }
     else
@@ -32,8 +32,8 @@ for(int i = 1; i < integers.size(); ++i){
 
 bool is_ordered_ascending(std::vector<int> integers)
 {
-    for(int i = 1; i < integers.size(); ++i){
-        if(integers.at(i) >= integers.at(i-1) - integers.at(i)){
+    for(int i = 0; i < integers.size() -1; ++i){
+        if(integers.at(i + 1) >= integers.at(i) - integers.at(i + 1)){
 
         }
         else{
@@ -46,8 +46,8 @@ bool is_ordered_ascending(std::vector<int> integers)
 }
 bool is_arithmetic_series(std::vector<int> integers)
 {
-    for(int i = 1; i < integers.size(); i++){
-        if(integers.at(i)-integers.at(i-1) == integers.at(i+1) - integers.at(i)){
+    for(int i = 0; i < integers.size() - 2; i++){
+        if(integers.at(i + 1)-integers.at(i) == integers.at(i+ 2) - integers.at(i + 1)){
 
         }
         else{
@@ -61,8 +61,8 @@ bool is_arithmetic_series(std::vector<int> integers)
 
 bool is_geometric_series(std::vector<int> integers)
 {
-    for(int i = 1; i < integers.size(); i++){
-        if(integers.at(i)/integers.at(i-1) == integers.at(i+1) / integers.at(i)){
+    for(int i = 0; i < integers.size() - 2; i++){
+        if(integers.at(i + 1)/integers.at(i) == integers.at(i+2) / integers.at(i+1)){
 
         }
         else{
