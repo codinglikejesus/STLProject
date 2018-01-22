@@ -19,11 +19,12 @@ public:
     void poistaLippu();
     void lisaaLippu();
     bool avaa();
-private:
     int x_;
     int y_;
     int arvo_;
     Lauta* lauta_;
+private:
+
 
 };
 
