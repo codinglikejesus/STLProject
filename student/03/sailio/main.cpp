@@ -39,8 +39,9 @@ bool is_ordered_ascending(std::vector<int> integers)
         else{
             return false;
         }
-        return true;
+
     }
+    return true;
 
 }
 bool is_arithmetic_series(std::vector<int> integers)
@@ -52,8 +53,9 @@ bool is_arithmetic_series(std::vector<int> integers)
         else{
             return false;
         }
-        return true;
+
     }
+    return true;
 
 }
 
@@ -66,8 +68,9 @@ bool is_geometric_series(std::vector<int> integers)
         else{
             return false;
         }
-        return true;
+
     }
+    return true;
 
 }
 
