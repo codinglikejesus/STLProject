@@ -10,7 +10,7 @@ using Lauta = std::vector< std::vector< Ruutu > >;
 class Ruutu
 {
 public:
-    Ruutu(int x, int y, bool onkoMiinaa, Lauta*, int arvo = 0);
+    Ruutu(int x, int y, bool onkoMiinaa, Lauta*, int arvo = 0, bool onkoAvattu = false, bool onkoLippua = false);
     void tulostaDebug(std::ostream&);
     void tulosta(std::ostream&);
     void laskeViereiset();
@@ -24,6 +24,8 @@ public:
     int arvo_;
     Lauta* lauta_;
     bool onkoMiinaa_;
+    bool onkoAvattu_;
+    bool onkoLippua_;
 private:
 
 
