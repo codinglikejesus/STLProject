@@ -20,7 +20,7 @@ public:
     bool avaa();
     int x_;
     int y_;
-    int arvo_;
+    int arvo_; // viereisten miinojen lkm
     Lauta* lauta_;
     bool onkoMiinaa_;
     bool onkoAvattu_;
