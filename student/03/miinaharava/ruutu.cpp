@@ -4,16 +4,7 @@ Ruutu::Ruutu(int x, int y, bool onkoMiinaa, Lauta* lauta, int arvo, bool onkoAva
 {
 
 }
-void Ruutu::tulostaDebug(std::ostream& virta)
-{
-    if(onkoMiinaa_ == true){
-        virta << "x";
-        }
-    else{
-        virta << arvo_;
-    }
 
-}
 
 void Ruutu::tulosta(std::ostream& virta)
 {

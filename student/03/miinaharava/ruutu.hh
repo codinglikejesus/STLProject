@@ -11,7 +11,6 @@ class Ruutu
 {
 public:
     Ruutu(int x, int y, bool onkoMiinaa, Lauta*, int arvo = 0, bool onkoAvattu = false, bool onkoLippua = false);
-    void tulostaDebug(std::ostream&);
     void tulosta(std::ostream&);
     void laskeViereiset();
     bool onkoValmis();
