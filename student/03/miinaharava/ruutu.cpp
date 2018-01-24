@@ -91,6 +91,7 @@ bool Ruutu::onkoValmis()
         return true;
     }
     else if(onkoMiinaa_ == false and onkoLippua_ == false){
+        return true;
 
     }
     else{
