@@ -6,22 +6,37 @@ Ruutu::Ruutu(int x, int y, bool onkoMiinaa, Lauta* lauta, int arvo, bool onkoAva
 }
 void Ruutu::tulostaDebug(std::ostream& virta)
 {
-
-    virta << onkoMiinaa_;
+    if(onkoMiinaa_ == true){
+        virta << "x";
+        }
+    else{
+        virta << arvo_;
+    }
 
 }
 
 void Ruutu::tulosta(std::ostream& virta)
 {
     if(onkoAvattu_ == false){
-        virta << ".";
-    }
-    else if(onkoLippua_ == true){
-        virta << "P";
+        if(onkoLippua_ == true){
+            virta << "P";
+        }
+        else{
+            virta << ".";
+        }
     }
     else{
-        virta << arvo_;
+        if(onkoMiinaa_ == true){
+            virta << "*";
+        }
+        else{
+            virta << arvo_;
+        }
+
+
     }
+
+
 }
 
 void Ruutu::laskeViereiset()
@@ -29,16 +44,16 @@ void Ruutu::laskeViereiset()
     {
 
     if(x_!=0 and y_ != 0){
-        if(lauta_->at(x_-1).at(y_-1).onkoMiinaa_ == true){
+        if(lauta_->at(y_-1).at(x_-1).onkoMiinaa_ == true){
             ++arvo_;
         }
     }
     if(y_ != 0){
-        if(lauta_->at(x_).at(y_-1).onkoMiinaa_ == true){
+        if(lauta_->at(y_-1).at(x_).onkoMiinaa_ == true){
             ++arvo_;
         }
         if(x_ < lauta_->size()-1){
-            if(lauta_->at(x_+1).at(y_ -1).onkoMiinaa_ == true){
+            if(lauta_->at(y_ -1).at(x_+1).onkoMiinaa_ == true){
                 ++arvo_;
             }
         }
@@ -47,29 +62,29 @@ void Ruutu::laskeViereiset()
     }
     if(x_!=0){
         if(y_ < lauta_->at(x_).size()-1){
-            if(lauta_->at(x_-1).at(y_+1).onkoMiinaa_ == true){
+            if(lauta_->at(y_+1).at(x_-1).onkoMiinaa_ == true){
                 ++arvo_;
             }
         }
 
-        if(lauta_->at(x_-1).at(y_).onkoMiinaa_ == true){
+        if(lauta_->at(y_).at(x_-1).onkoMiinaa_ == true){
            ++arvo_;
         }
 
     }
 
     if(x_ < lauta_->size()-1){
-        if(lauta_->at(x_+1).at(y_).onkoMiinaa_ == true){
+        if(lauta_->at(y_).at(x_+1).onkoMiinaa_ == true){
         ++arvo_;
     }
     }
     if(y_ < lauta_->at(x_).size()-1){
 
-        if(lauta_->at(x_).at(y_+1).onkoMiinaa_ == true){
+        if(lauta_->at(y_+1).at(x_).onkoMiinaa_ == true){
             ++arvo_;
         }
         if(x_ < lauta_->at(x_).size()-1){
-            if(lauta_->at(x_+1).at(y_+1).onkoMiinaa_ == true){
+            if(lauta_->at(y_+1).at(x_+1).onkoMiinaa_ == true){
             ++arvo_;
             }
         }
@@ -83,6 +98,12 @@ bool Ruutu::onkoValmis()
 {
     if(onkoMiinaa_ == true and onkoLippua_ == true){
         return true;
+    }
+    else if(onkoMiinaa_ == false and onkoLippua_ == false){
+
+    }
+    else{
+        return false;
     }
 }
 
@@ -100,7 +121,9 @@ void Ruutu::lisaaLippu()
 
 void Ruutu::poistaLippu()
 {
-
+    if(onkoLippua_ == true){
+        onkoLippua_= false;
+    }
 }
 
 bool Ruutu::avaa()
@@ -110,9 +133,60 @@ bool Ruutu::avaa()
 
         return false;
     }
+    else if(arvo_ == 0){
+        if(x_!=0 and y_ != 0){
+            if(lauta_->at(y_-1).at(x_-1).onkoMiinaa_ == false and lauta_->at(y_-1).at(x_-1).onkoAvattu_ == false){
+                lauta_->at(y_-1).at(x_-1).avaa();
+            }
+        }
+        if(y_ != 0){
+            if(lauta_->at(y_-1).at(x_).onkoMiinaa_ == false and lauta_->at(y_-1).at(x_).onkoAvattu_ == false){
+                lauta_->at(y_-1).at(x_).avaa();
+            }
+            if(x_ < lauta_->size()-1){
+                if(lauta_->at(y_ -1).at(x_+1).onkoMiinaa_ == false and lauta_->at(y_ -1).at(x_+1).onkoAvattu_ == false){
+                    lauta_->at(y_ -1).at(x_+1).avaa();
+                }
+            }
+
+
+        }
+        if(x_!=0){
+            if(y_ < lauta_->at(x_).size()-1){
+                if(lauta_->at(y_+1).at(x_-1).onkoMiinaa_ == false and lauta_->at(y_+1).at(x_-1).onkoAvattu_ == false){
+                    lauta_->at(y_+1).at(x_-1).avaa();
+                }
+            }
+
+            if(lauta_->at(y_).at(x_-1).onkoMiinaa_ == false and lauta_->at(y_).at(x_-1).onkoAvattu_ == false){
+               lauta_->at(y_).at(x_-1).avaa();
+            }
+
+        }
+
+        if(x_ < lauta_->size()-1){
+            if(lauta_->at(y_).at(x_+1).onkoMiinaa_ == false and lauta_->at(y_).at(x_+1).onkoAvattu_ == false){
+                lauta_->at(y_).at(x_+1).avaa();
+        }
+        }
+        if(y_ < lauta_->at(x_).size()-1){
+
+            if(lauta_->at(y_+1).at(x_).onkoMiinaa_ == false and lauta_->at(y_+1).at(x_).onkoAvattu_ == false){
+                lauta_->at(y_+1).at(x_).avaa();
+            }
+            if(x_ < lauta_->at(x_).size()-1){
+                if(lauta_->at(y_+1).at(x_+1).onkoMiinaa_ == false and lauta_->at(y_+1).at(x_+1).onkoAvattu_ == false){
+               lauta_->at(y_+1).at(x_+1).avaa();
+                }
+            }
+        }
+        return true;
+        }
+
+
+
     else{
         return true;
-
-    }
+}
 
 }
