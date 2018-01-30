@@ -15,7 +15,7 @@ vector<string> split(string merkkijono, char erotinmerkki, bool ohitus = false)
         if(indeksi != string::npos){
             if(merkkijono.at(0) == erotinmerkki and merkkijono.size() == 1){
                 tulos.push_back(merkkijono.substr(0, indeksi ));
-                tulos.push_back(merkkijono.substr(0, indeksi ));
+
             }
             tulos.push_back(merkkijono.substr(0, indeksi ));
             merkkijono.erase(0, indeksi +1);
