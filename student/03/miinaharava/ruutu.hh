@@ -1,3 +1,6 @@
+//Tekija: Luukas Lusetti
+//OPnro: 255162
+
 #ifndef RUUTU_HH
 #define RUUTU_HH
 
@@ -18,15 +21,15 @@ public:
     void poistaLippu();
     void lisaaLippu();
     bool avaa();
+
+private:
+    bool onkoMiinaa_;
+    bool onkoAvattu_;
+    bool onkoLippua_;
     int x_;
     int y_;
     int arvo_; // viereisten miinojen lkm
     Lauta* lauta_;
-    bool onkoMiinaa_;
-    bool onkoAvattu_;
-    bool onkoLippua_;
-private:
-
 
 };
 

@@ -1,7 +1,11 @@
+//Tekija: Luukas Lusetti
+//OPnro: 255162
+
 #include "ruutu.hh"
 
 //Uuden ruudun alustus
-Ruutu::Ruutu(int x, int y, bool onkoMiinaa, Lauta* lauta, int arvo, bool onkoAvattu, bool onkoLippua):x_(x), y_(y), onkoMiinaa_(onkoMiinaa), lauta_(lauta), arvo_(arvo), onkoAvattu_(onkoAvattu), onkoLippua_(onkoLippua)
+Ruutu::Ruutu(int x, int y, bool onkoMiinaa, Lauta* lauta, int arvo, bool onkoAvattu, bool onkoLippua):
+    x_(x), y_(y), onkoMiinaa_(onkoMiinaa), lauta_(lauta), arvo_(arvo), onkoAvattu_(onkoAvattu), onkoLippua_(onkoLippua)
 {
 
 }
@@ -116,7 +120,7 @@ void Ruutu::lisaaLippu()
         onkoLippua_ = true;
     }
 }
-
+//Sama kuin lisaaLippu mutta kaanteisesti
 void Ruutu::poistaLippu()
 {
     if(onkoLippua_ == true){
