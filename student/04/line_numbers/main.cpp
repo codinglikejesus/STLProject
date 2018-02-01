@@ -36,4 +36,5 @@ int main(int argc, char *argv[])
             output_olio << i + 1 << " " << rivilista.at(i) << endl;
         }
     }
+    output_olio.close();
 }
