@@ -18,6 +18,7 @@ int main(int argc, char *argv[])
     ifstream input_olio(input_nimi);
     if ( not input_olio) {
         cout << "Error! The file " << input_nimi << " cannot be opened.";
+        return EXIT_FAILURE;
     }
     else{
         string rivi;
