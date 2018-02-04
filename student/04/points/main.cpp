@@ -15,7 +15,7 @@ int main()
    ifstream tiedosto_olio(input_tiedosto);
    if (not tiedosto_olio){
        cout << "Error! The file " << input_tiedosto << " cannot be opened.";
-       return EXIT_FAILURE;
+       return EXIT_SUCCESS;
    }
    string nimi;
    int pisteet;
