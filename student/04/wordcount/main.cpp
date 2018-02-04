@@ -22,6 +22,7 @@ int main()
     ifstream tiedosto_olio(tiedosto_nimi);
     if (not tiedosto_olio){
         cout << "Error! The file " << tiedosto_nimi << " cannot be opened.";
+        return EXIT_FAILURE;
     }
     string rivi;
     string sana;
@@ -36,7 +37,7 @@ int main()
             }
             else
                 rivi = rivi.substr(indeksi + 1);
-            if (sanahakemisto.find(sana) == sanahakemisto.end()){
+            if (sanahakemisto.count(sana)){
                 sanahakemisto.insert(make_pair(sana, Sana()));
             }
             sanahakemisto[sana].maara++;
@@ -45,6 +46,7 @@ int main()
         }
     ++i;
     }
+    tiedosto_olio.close();
     for( auto alkio : sanahakemisto){
         bool asd = false;
         cout << alkio.first << " " << alkio.second.maara << ": ";
