@@ -3,7 +3,7 @@
 
 bool palindrome_recursive(std::string word, int begin, int ending){
     if (word.at(begin) == word.at(ending)){
-        if ( begin == ending)
+        if ( begin >= ending)
             return true;
         begin++;
         ending--;
