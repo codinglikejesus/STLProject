@@ -12,11 +12,12 @@ bool palindrome_recursive(std::string word, int begin, int ending){
             flag = true;
             palindrome_recursive(word, begin, ending);
             return flag;
-
         }
     }
-    else
+    else{
         flag = false;
+        return flag;
+    }
 }
 
 int main()
