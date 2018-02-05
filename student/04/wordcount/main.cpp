@@ -40,7 +40,7 @@ int main()
             if (sanahakemisto.count(sana)){
                 sanahakemisto.insert(make_pair(sana, Sana()));
             }
-            if (rivi.find(sana) == string::npos)
+            if (rivi.find(sana) == string::npos and sana.size() != 1)
                 sanahakemisto[sana].maara++;
             sanahakemisto[sana].sijainnit.insert(i);
 
