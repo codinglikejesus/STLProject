@@ -8,6 +8,7 @@ bool palindrome_recursive(std::string word, int begin, int ending){
         begin++;
         ending--;
         palindrome_recursive(word, begin, ending);
+        return true;
     }
     else
         return false;
@@ -26,4 +27,5 @@ int main()
     } else {
         std::cout << word << " is not a palindrome" << std::endl;
     }
+
 }
