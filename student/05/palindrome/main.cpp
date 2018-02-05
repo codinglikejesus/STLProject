@@ -1,17 +1,22 @@
 #include <iostream>
 #include <string>
+bool flag = false;
 
 bool palindrome_recursive(std::string word, int begin, int ending){
     if (word.at(begin) == word.at(ending)){
         if ( begin >= ending)
-            return true;
-        begin++;
-        ending--;
-        palindrome_recursive(word, begin, ending);
-        return true;
+            return flag;
+        else{
+            begin++;
+            ending--;
+            flag = true;
+            palindrome_recursive(word, begin, ending);
+            return flag;
+
+        }
     }
     else
-        return false;
+        flag = false;
 }
 
 int main()
