@@ -3,10 +3,10 @@
 #include "ruutu.hh"
 
 
-Ruutu::Ruutu( int x, int y, int tippoja, Lauta* lauta ): x_(x), y_(y), tippoja_(tippoja), lauta_(lauta)
+Ruutu::Ruutu(int x, int y, bool onkoMiinaa, Lauta* lauta , int tippoja): x_(x), y_(y), tippoja_(tippoja), lauta_(lauta)
 {
    // Ruutuun alustettiin liikaa vettä, se poksahtaa jo ennen kuin peli alkaa :)
-   if( tippoja_ > MAKSIMI_TILAVUUS )
+   if( tippoja_ > MAKSIMI_TILAVUUS )id
    {
       poksahda();
    }
