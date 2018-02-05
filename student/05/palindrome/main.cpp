@@ -1,6 +1,6 @@
 #include <iostream>
 #include <string>
-bool flag = false;
+bool flag = true;
 
 bool palindrome_recursive(std::string word, int begin, int ending){
     if (word.at(begin) == word.at(ending)){
