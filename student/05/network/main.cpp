@@ -4,9 +4,32 @@
 #include <vector>
 #include <map>
 
+
+int iterator = 0;
 const std::string HELP_TEXT = "S = store id1 i2\n P = print id\n"
                               "C = count id\n D = depth id";
 
+void print(std::map<std::string, std::vector <std::string>> network, std::string name){
+    if ( iterator == 0)
+        std::cout << name << std::endl;
+
+    if (network.find(name) != network.end()){
+
+        for( auto nimi : network.at(name)){
+            if ( network.at(name).size() != 0){
+                std::string commas = "..";
+                for ( int i = 0; i < iterator; i++)
+                    commas += "..";
+                std::cout << commas << nimi << std::endl;
+                iterator++;
+                print(network, nimi);
+            }
+            else return;
+        }
+
+    }
+    iterator--;
+}
 
 std::vector<std::string> split(const std::string& s, const char delimiter, bool ignore_empty = false){
     std::vector<std::string> result;
@@ -66,6 +89,10 @@ int main()
             std::string id = parts.at(1);
 
             // TODO: Implement the command here!
+            iterator = 0;
+            print(verkosto, id);
+
+
 
         } else if(command == "C" or command == "c"){
             if(parts.size() != 2){
