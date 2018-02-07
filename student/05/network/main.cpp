@@ -3,11 +3,42 @@
 #include <string>
 #include <vector>
 #include <map>
+#include <algorithm>
 
-
+std::vector<int> depth_vector;
 int iterator = 0;
 const std::string HELP_TEXT = "S = store id1 i2\n P = print id\n"
                               "C = count id\n D = depth id";
+int count(std::map<std::string, std::vector <std::string>> network, std::string name, int amount){
+    if ( network.find(name) != network.end()){
+        for (auto nimi: network.at(name)){
+            amount++;
+            amount = count(network, nimi, amount);
+        }
+        return amount;
+    }
+    else{
+        return amount;
+    }
+}
+
+int depth(std::map<std::string, std::vector <std::string>> network, std::string name, int amount){
+    if ( network.find(name) != network.end()){
+        amount++;
+        for (auto nimi: network.at(name)){
+            amount = depth(network, nimi, amount);
+            amount--;
+        }
+
+        return amount;
+    }
+    else{
+        amount++;
+        depth_vector.push_back(amount);
+        return amount;
+    }
+
+}
 
 void print(std::map<std::string, std::vector <std::string>> network, std::string name){
     if ( iterator == 0)
@@ -102,12 +133,16 @@ int main()
 
             // TODO: Implement the command here!
 
+            std::cout << count(verkosto, id, 0) <<  std::endl;
+
         } else if(command == "D" or command == "d"){
             if(parts.size() != 2){
                 std::cout << "Erroneous parameters!" << std::endl << HELP_TEXT;
             }
+            depth_vector={};
             std::string id = parts.at(1);
-
+            depth(verkosto, id, 0);
+            std::cout << *std::max_element(depth_vector.begin(), depth_vector.end()) << std::endl;
             // TODO: Implement the command here!
 
         } else if(command == "Q" or command == "q"){
