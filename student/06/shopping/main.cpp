@@ -10,19 +10,25 @@ using namespace std;
 
 struct Product {
     string product_name;
-    double price;
+    string price;
+
 };
-void add_chain(string chain, map &store_container){
+void add_chain(string chain, map<string, map<string, vector<Product>>> &store_container, map <string, vector<Product>> &location){
     if (store_container.find(chain) == store_container.end())
-        store_container.insert(chain);
+        store_container[chain] = location;
     }
 
 
-void add_product(string tuote, string price, Product &product, string store, map location, map &store_container){
+void add_product(string tuote, string price, Product &product, string store, map <string, vector<Product>> &location, map<string, map<string, set<Product>>> &store_container, vector <Product> &product_list){
     product.product_name = tuote;
-    product.price = stoi(price);
+    product.price = price;
+    for ( auto a : product_list){
+        if ( a.product_name == tuote){
+            a.price = price;
+            break;
+        }
+    }
     product_list.push_back(product);
-    store_container.insert({store, location});
 }
 
 void add_location(map &store_container, map &location, string kauppa, vector &product_list){
@@ -74,10 +80,9 @@ std::vector<std::string> split(const std::string& s){
 
 int main()
 {
-    map<string, map<string, set<Product>>>::iterator it;
-    map<string, map<string, set<Product>>> store_container;
+    map<string, map<string, vector<Product>>>::iterator it;
+    map<string, map<string, vector<Product>>> store_container;
     string file_name;
-    bool flag;
     //Pyytaa luettavan tiedoston nimea ja luo tiedosto-olion
     cout << "Input file: " << endl;
     getline(cin, file_name);
@@ -103,8 +108,8 @@ int main()
             string kauppa = line_split.at(1);
             string tuote = line_split.at(2);
             string price = line_split.at(3);
-            add_chain();
-            add_product();
+            add_chain(store, *store_container, location);
+            add_product(tuote, price, &product, store, location, &store_container);
             add_location(store_container, location, kauppa, product_list);
 
             }
