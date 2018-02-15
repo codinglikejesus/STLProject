@@ -106,7 +106,7 @@ int main()
             string price = line_split.at(3);
             add_chain();
             add_product();
-            add_location(store_container, location, kauppa, product_list, map<string, map<string, set<Product>>>::iterator it);
+            add_location(store_container, location, kauppa, product_list, it);
 
             }
 
