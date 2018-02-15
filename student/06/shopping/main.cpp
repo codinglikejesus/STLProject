@@ -4,6 +4,7 @@
 #include <map>
 #include <vector>
 #include <algorithm>
+#include <set>
 
 using namespace std;
 
@@ -11,6 +12,22 @@ struct Product {
     string product_name;
     double price;
 };
+bool
+void chains(std::vector<string> command){
+cout << "toimii"<< endl;
+}
+void stores(std::vector<string> command){
+cout << "toimii"<< endl;
+}
+void selection(std::vector<string> command){
+cout << "toimii"<< endl;
+}
+void cheapest(std::vector<string> command){
+cout << "toimii"<< endl;
+}
+void products(std::vector<string> command){
+cout << "toimii"<< endl;
+}
 
 std::vector<std::string> split(const std::string& s){
     const char* delimiter = ";";
@@ -37,8 +54,8 @@ std::vector<std::string> split(const std::string& s){
 
 int main()
 {
-    map<string, map<string, vector<Product>>>::iterator it;
-    map<string, map<string, vector<Product>>> store_container;
+    map<string, map<string, set<Product>>>::iterator it;
+    map<string, map<string, set<Product>>> store_container;
     string file_name;
     bool flag;
     //Pyytaa luettavan tiedoston nimea ja luo tiedosto-olion
@@ -54,21 +71,23 @@ int main()
         string line;
 
         while ( getline(file, line)){
-
+            int row = 0;
             //Jaetaan rivi osiin ja sijoitetaan vektoriin line_split, sijoitetaan osat store_container
             //mappiin.
             vector <string> line_split;
             line_split = split(line);
             map <string, vector<Product>> location;
-            vector <Product> product_list;
+            vector<Product> product_list;
             Product product;
+
+
 
 
             //Tarkistaa onko ketju jo store_container:ssa
             if ( store_container.find( line_split.at(0)) == store_container.end()){
                 product.product_name = line_split.at(2);
                 product.price = stoi(line_split.at(3));
-                product_list.push_back(product);
+                product_list.insert(product);
                 store_container.insert({line_split.at(0), location});
             }
             else{
@@ -79,17 +98,27 @@ int main()
                         location.insert({line_split.at(1), product_list});
                         flag = true;
                     }
-                if ( flag == true){
-                    if ( find(store_container[line_split.at(0)][line_split.at(1)].begin(), store_container[line_split.at(0)][line_split.at(1)].end(), line_split.at(2)) != store_container[line_split.at(0)][line_split.at(1)].end()){
-                        if ( product.price < store_container[line_split.at(0)][line_split.at(1)].at(product.price)){
-
-                        }
-                    }
                 }
-                }
-                true;
-            }
+            }row += 1;
         }
+    }while(true){
+        string input;
+        cout << "> "; cin >> input;
+        std::vector<string> command = split(input);
+        if(command.at(0) == "chains"){
+            chains(command);
+        }else if(command.at(0) == "stores"){
+            stores(command);
+        }else if(command.at(0) == "selection"){
+            selection(command);
+        }else if(command.at(0) == "cheapest"){
+            cheapest(command);
+        }else if(command.at(0) == "products"){
+            products(command);
+        }else{
+            std::cout << "Error: unknown command" << std::endl;
+        }
+
     }
 
 
