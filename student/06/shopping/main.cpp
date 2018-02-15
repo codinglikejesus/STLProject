@@ -17,16 +17,17 @@ store_container.find(store) == store_container.end();
 }
 
 void add_product(){
+    if()
     product.product_name = tuote;
     product.price = stoi(price);
     product_list.push_back(product);
     store_container.insert({store, location});
 }
 
-void add_location(){
+void add_location(map &store_container, map &location, string kauppa, vector &product_list){
     for ( it=store_container.begin(); it != store_container.end(); it++){
         if (it->second == location){
-            location.push_back({line_split.at(1), product_list});
+            location.push_back({kauppa, product_list});
         }
     }
 }
@@ -103,7 +104,7 @@ int main()
             string price = line_split.at(3);
             add_container();
             add_product();
-            add_location();
+            add_location(store_container, location, kauppa, product_list);
 
             }
 
