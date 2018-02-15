@@ -19,7 +19,7 @@ void add_chain(string chain, map<string, map<string, vector<Product>>> &store_co
     }
 
 
-void add_product(string tuote, string price, Product &product, string store, map <string, vector<Product>> &location, map<string, map<string, set<Product>>> &store_container, vector <Product> &product_list){
+void add_product(string tuote, string price, Product &product, string store, map <string, vector<Product>> &location, map<string, map<string, vector<Product>>> &store_container, vector <Product> &product_list){
     product.product_name = tuote;
     product.price = price;
     for ( auto a : product_list){
@@ -31,10 +31,11 @@ void add_product(string tuote, string price, Product &product, string store, map
     product_list.push_back(product);
 }
 
-void add_location(map &store_container, map &location, string kauppa, vector &product_list){
-    for ( it=store_container.begin(); it != store_container.end(); it++){
-        if (it->second == location){
-            location.push_back({kauppa, product_list});
+void add_location(map<string, map<string, vector<Product>>> &store_container, map <string, vector<Product>> &location, string kauppa,
+                  vector<Product> &product_list){
+    for ( auto it : store_container ){
+        if (it.first == kauppa){
+            location.insert({kauppa, product_list});
         }
     }
 }
@@ -108,9 +109,12 @@ int main()
             string kauppa = line_split.at(1);
             string tuote = line_split.at(2);
             string price = line_split.at(3);
-            add_chain(store, *store_container, location);
-            add_product(tuote, price, &product, store, location, &store_container);
+
+            add_chain(store, store_container, location);
             add_location(store_container, location, kauppa, product_list);
+            add_product(tuote, price, product, store, location, store_container, product_list);
+
+
 
             }
 
