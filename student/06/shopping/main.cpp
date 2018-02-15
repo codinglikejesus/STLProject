@@ -11,15 +11,18 @@ using namespace std;
 struct Product {
     string product_name;
     string price;
-
 };
-void add_chain(string chain, map<string, map<string, vector<Product>>> &store_container, map <string, vector<Product>> &location){
+
+void add_chain(string chain, map<string, map<string, vector<Product>>> store_container){
     if (store_container.find(chain) == store_container.end())
+    {
+        map<string, vector<Product>> location;
         store_container[chain] = location;
     }
+}
 
 
-void add_product(string tuote, string price, Product &product, string store, map <string, vector<Product>> &location, map<string, map<string, vector<Product>>> &store_container, vector <Product> &product_list){
+void add_product(string tuote, string price, Product product, string store, map <string, vector<Product>> location, map<string, map<string, vector<Product>>> store_container, vector <Product> product_list){
     product.product_name = tuote;
     product.price = price;
     for ( auto a : product_list){
@@ -31,13 +34,22 @@ void add_product(string tuote, string price, Product &product, string store, map
     product_list.push_back(product);
 }
 
-void add_location(map<string, map<string, vector<Product>>> &store_container, map <string, vector<Product>> &location, string kauppa,
-                  vector<Product> &product_list){
-    for ( auto it : store_container ){
-        if (it.first == kauppa){
-            location.insert({kauppa, product_list});
-        }
+void add_location(map<string, map<string, vector<Product>>> store_container, string chain, string location)
+{
+    map<string, map<string, vector<Product>>>::iterator it = store_container.find(chain);
+
+    // Jos kauppaketjua ei löydy
+    if (it == store_container.end())
+    {
+        return;
     }
+
+    if ((*it).second.find(location) == (*it).second.end())
+    {
+        map<string, vector<Product>> product_list;
+        (*it).second.insert({kauppa, product_list});
+    }
+
 }
 
 void chains(std::vector<string> command){
@@ -88,16 +100,14 @@ int main()
     cout << "Input file: " << endl;
     getline(cin, file_name);
     ifstream file(file_name);
-    if ( not file){
+    if (!file.is_open()){
         cout << "Error: the input file cannot be opened";
     }
-
     //Tiedosto saadaan avattua
     else{
         string line;
 
         while ( getline(file, line)){
-            int row = 0;
             //Jaetaan rivi osiin ja sijoitetaan vektoriin line_split, sijoitetaan osat store_container
             //mappiin.
             vector <string> line_split;
@@ -113,10 +123,7 @@ int main()
             add_chain(store, store_container, location);
             add_location(store_container, location, kauppa, product_list);
             add_product(tuote, price, product, store, location, store_container, product_list);
-
-
-
-            }
+        }
 
     }while(true){
         string input;
