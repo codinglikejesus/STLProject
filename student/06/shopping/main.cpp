@@ -12,11 +12,12 @@ struct Product {
     string product_name;
     double price;
 };
-void add_container(string store, map &store_container){
-store_container.find(store) == store_container.end();
-}
+void add_chain(string chain, map &store_container){
+    if (store_container.find(chain) == store_container.end())
+        store_container.insert(chain);
+    }
 
-void add_product(){
+void add_product(string tuote, string price, Product &product, string store, map location, map &store_container){
     product.product_name = tuote;
     product.price = stoi(price);
     product_list.push_back(product);
@@ -101,7 +102,7 @@ int main()
             string kauppa = line_split.at(1);
             string tuote = line_split.at(2);
             string price = line_split.at(3);
-            add_container();
+            add_chain();
             add_product();
             add_location();
 
