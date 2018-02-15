@@ -25,10 +25,11 @@ void add_product(string tuote, string price, Product &product, string store, map
     store_container.insert({store, location});
 }
 
-void add_location(map &store_container, map &location, string kauppa, vector &product_list){
+void add_location(map<string, map<string, vector<Product>>> &store_container, map <string, vector<Product>> &location, string kauppa,
+                  vector<Product> &product_list, map<string, map<string, vector<Product>>>::iterator it){
     for ( it=store_container.begin(); it != store_container.end(); it++){
         if (it->second == location){
-            location.push_back({kauppa, product_list});
+            location.insert({kauppa, product_list});
         }
     }
 }
@@ -74,8 +75,8 @@ std::vector<std::string> split(const std::string& s){
 
 int main()
 {
-    map<string, map<string, set<Product>>>::iterator it;
-    map<string, map<string, set<Product>>> store_container;
+    map<string, map<string, vector<Product>>>::iterator it;
+    map<string, map<string, vector<Product>>> store_container;
     string file_name;
     bool flag;
     //Pyytaa luettavan tiedoston nimea ja luo tiedosto-olion
@@ -105,7 +106,7 @@ int main()
             string price = line_split.at(3);
             add_chain();
             add_product();
-            add_location(store_container, location, kauppa, product_list);
+            add_location(store_container, location, kauppa, product_list, map<string, map<string, set<Product>>>::iterator it);
 
             }
 
