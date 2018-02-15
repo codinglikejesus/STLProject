@@ -12,7 +12,25 @@ struct Product {
     string product_name;
     double price;
 };
-bool
+void add_container(string store, map &store_container){
+store_container.find(store) == store_container.end();
+}
+
+void add_product(){
+    product.product_name = tuote;
+    product.price = stoi(price);
+    product_list.push_back(product);
+    store_container.insert({store, location});
+}
+
+void add_location(){
+    for ( it=store_container.begin(); it != store_container.end(); it++){
+        if (it->second == location){
+            location.push_back({line_split.at(1), product_list});
+        }
+    }
+}
+
 void chains(std::vector<string> command){
 cout << "toimii"<< endl;
 }
@@ -79,28 +97,16 @@ int main()
             map <string, vector<Product>> location;
             vector<Product> product_list;
             Product product;
+            string store = line_split.at(0);
+            string kauppa = line_split.at(1);
+            string tuote = line_split.at(2);
+            string price = line_split.at(3);
+            add_container();
+            add_product();
+            add_location();
 
-
-
-
-            //Tarkistaa onko ketju jo store_container:ssa
-            if ( store_container.find( line_split.at(0)) == store_container.end()){
-                product.product_name = line_split.at(2);
-                product.price = stoi(line_split.at(3));
-                product_list.insert(product);
-                store_container.insert({line_split.at(0), location});
             }
-            else{
-                //Kay iteraattorilla lapi jokaisen avaimen, ja tarkistaa loytyyko sijainti.
-                //Jos ei loydy, sjoittaa uuden sijainnin
-                for ( it=store_container.begin(); it != store_container.end(); it++){
-                    if (it->second == location){
-                        location.insert({line_split.at(1), product_list});
-                        flag = true;
-                    }
-                }
-            }row += 1;
-        }
+
     }while(true){
         string input;
         cout << "> "; cin >> input;
