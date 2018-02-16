@@ -4,7 +4,6 @@
 #include <map>
 #include <vector>
 #include <algorithm>
-#include <set>
 
 using namespace std;
 
@@ -13,35 +12,34 @@ struct Product {
     string price;
 
 };
-void add_chain(string chain, map<string, map<string, vector<Product>>> &store_container, map <string, vector<Product>> &location){
+
+void add_chain(string chain, map<string, map<string, vector<Product>>> &store_container, map <string, vector<Product>> location){
     if (store_container.find(chain) == store_container.end())
         store_container[chain] = location;
     }
 
 
-void add_product(string tuote, string price, Product &product, string store, map <string, vector<Product>> &location, map<string, map<string, vector<Product>>> &store_container, vector <Product> &product_list){
-    product.product_name = tuote;
-    product.price = price;
-    for ( auto a : product_list){
-        if ( a.product_name == tuote){
-            a.price = price;
-            break;
-        }
-    }
-    product_list.push_back(product);
+//void add_product(string tuote, string price, Product &product, string store, map <string, vector<Product>> location, map<string, map<string, vector<Product>>> &store_container, vector <Product> &product_list){
+  //  product.product_name = tuote;
+    //product.price = price;
+    //for ( auto a : product_list){
+      //  if ( a.product_name == tuote){
+        //    a.price = price;
+          //  break;
+        //}
+    //}
+    //product_list.push_back(product);
+//}
+
+void add_location(map<string, map<string, vector<Product>>> &store_container, string store, map <string, vector<Product>> &location, string chain){
+    vector<Product> product_list;
+    store_container[chain].insert({store, product_list});
+
 }
 
-void add_location(map<string, map<string, vector<Product>>> &store_container, map <string, vector<Product>> &location, string kauppa,
-                  vector<Product> &product_list){
-    for ( auto it : store_container ){
-        if (it.first == kauppa){
-            location.insert({kauppa, product_list});
-        }
-    }
-}
-
-void chains(std::vector<string> command){
-cout << "toimii"<< endl;
+void chains(map<string, map<string, vector<Product>>> &store_container){
+    for(auto i : store_container){
+                cout << i.first << endl;}
 }
 void stores(std::vector<string> command){
 cout << "toimii"<< endl;
@@ -84,6 +82,7 @@ int main()
     map<string, map<string, vector<Product>>>::iterator it;
     map<string, map<string, vector<Product>>> store_container;
     string file_name;
+    map <string, vector<Product>> location;
     //Pyytaa luettavan tiedoston nimea ja luo tiedosto-olion
     cout << "Input file: " << endl;
     getline(cin, file_name);
@@ -97,33 +96,34 @@ int main()
         string line;
 
         while ( getline(file, line)){
-            int row = 0;
             //Jaetaan rivi osiin ja sijoitetaan vektoriin line_split, sijoitetaan osat store_container
             //mappiin.
             vector <string> line_split;
             line_split = split(line);
-            map <string, vector<Product>> location;
-            vector<Product> product_list;
+
             Product product;
-            string store = line_split.at(0);
-            string kauppa = line_split.at(1);
+            string chain = line_split.at(0);
+            string store = line_split.at(1);
             string tuote = line_split.at(2);
             string price = line_split.at(3);
 
-            add_chain(store, store_container, location);
-            add_location(store_container, location, kauppa, product_list);
-            add_product(tuote, price, product, store, location, store_container, product_list);
+            add_chain(chain, store_container, location);
+            add_location(store_container, store, location, chain);
+            //add_product(tuote, price, product, chain, location, store_container, product_list);
 
 
 
-            }
+        }for(auto i : store_container){
+            cout << i.first << endl;
+        }
+
 
     }while(true){
         string input;
         cout << "> "; cin >> input;
         std::vector<string> command = split(input);
         if(command.at(0) == "chains"){
-            chains(command);
+            chains(store_container);
         }else if(command.at(0) == "stores"){
             stores(command);
         }else if(command.at(0) == "selection"){
