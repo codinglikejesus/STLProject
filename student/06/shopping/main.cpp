@@ -12,12 +12,17 @@
 
 using namespace std;
 
+
 //Tuote struct
 struct Product {
     string product_name;
     string price;
 
 };
+
+
+//Tarkistaa, onko vektorin alkioissa tyhjia merkkijonoja.
+//Palauttaa true jos on, muuten false.
 bool empty_line(vector<string> line_split){
     for ( auto line : line_split){
         if ( line == "")
@@ -28,6 +33,9 @@ bool empty_line(vector<string> line_split){
     return true;
 }
 
+
+//Ottaa parametrina vektorin joka sisaltaa tiedostosta otetun rivin jaettuna osiin.
+//Palauttaa arvon true, jos rivi on oikeanlainen, muuten false.
 bool is_line_correct(vector<string> line_split){
     if ( line_split.size() != 4 or empty_line(line_split)){
         cout << "Error: the file has an erroneous line" << endl;
@@ -36,26 +44,29 @@ bool is_line_correct(vector<string> line_split){
     return true;
 }
 
+
 //Tarkistaa onko parametreja oikea maara, ja palauttaa tarkastelun mukaisen arvon
 bool number_of_params(vector<string> command, unsigned int number){
     if(command.size() != number){
         cout << "Error: error in command " << command.at(0) << endl;
         return false;
-    }else
+    }
+    else
         return true;
 }
+
 
 //Lisaa store_container rakenteeseen uuden ketjun
 void add_chain(string chain, map<string, map<string, vector<Product>>> &store_container){
 
     //Tarkistaa loytyyko kyseinen ketju jo rakenteesta, ja lisaa uuden
     //jos ei loydy
-    if (store_container.find(chain) == store_container.end())
-    {
+    if (store_container.find(chain) == store_container.end()){
         map<string, vector<Product>> location;
         store_container[chain] = location;
     }
 }
+
 
 //Lisaa tuotteen ketju/sijainti rakenteeseen.
 void add_product(string product_name, string price, Product &product, string chain, map<string, map<string, vector<Product>>> &store_container, string location_name){
@@ -74,13 +85,14 @@ void add_product(string product_name, string price, Product &product, string cha
             a.price = price;
             flag = false;
             break;
-
         }
     }
+
     //Lisaa uuden tuotteen listaan jos sita ei loytynyt entuudestaan.
     if (flag != false)
         store_container[chain][location_name].push_back(product);
 }
+
 
 //Lisaa sijainnin kauppaketjulle
 void add_location(map<string, map<string, vector<Product>>> &store_container, string location_name, string chain){
@@ -90,13 +102,14 @@ void add_location(map<string, map<string, vector<Product>>> &store_container, st
     //uuden sijainnin.
     if ( store_container[chain].find(location_name) == store_container[chain].end())
         store_container[chain].insert({location_name, product_list});
-
 }
+
 
 //Kay jokaisen kauppaketjun lapi ja tulostaa ne erillisille riville.
 void chains(map<string, map<string, vector<Product>>> &store_container){
     for(auto i : store_container){
-                cout << i.first << endl;}
+        cout << i.first << endl;
+    }
 }
 
 
@@ -107,6 +120,7 @@ void stores(map<string, map<string, vector<Product>>> &store_container, string s
         cout << "Error: an unknown chain" << endl;
         return;
     }
+
     else{
         for(auto i : store_container[store_name]){
             cout << i.first << endl;
@@ -117,13 +131,18 @@ void stores(map<string, map<string, vector<Product>>> &store_container, string s
 //Ottaa parametreinaan ketjun ja sijainnin, ja tulostaa kyseisen kaupan tuotteiden nimet ja
 //hinnat aakkosjarjestyksessa.
 void selection(std::vector<string> command, map<string, map<string, vector<Product>>> &store_container){
+
     set <string> product_set;
     string store_name = command.at(1);
     string store_location = command.at(2);
+
+    //Tarkistaa, loytyyko parametrina valitettya ketjua tietorakenteesta.
     if ( store_container.find(store_name) == store_container.end()){
         cout << "Error: unknown chain" << endl;
         return;
     }
+
+    //Tarkistaa, loytyyko parametrina valitettya sijaintia tietorakenteesta
     else if (store_container[store_name].find(store_location) == store_container[store_name].end()){
         cout << "Error: unknown store" << endl;
         return;
@@ -131,20 +150,23 @@ void selection(std::vector<string> command, map<string, map<string, vector<Produ
 
     else{
 
+        //Sijoittaa product_set:iin tuotteen nimen ja joko "out of stock" tai hinnan.
         for ( auto product : store_container[store_name][store_location]){
             if ( product.price == "out-of-stock")
                 product_set.insert(product.product_name + " out of stock");
             else
                 product_set.insert(product.product_name + " " + product.price);
-
         }
     }
+
+    //Tulostaa product_set:sta alkiot.
     for( auto product : product_set)
         cout << product << endl;
 }
 
 //Ottaa parametreina tuoteen jonka hintaa tarkastellaan ja tietorakenteen. Tulostaa tuotteen
-//halvimman loydetyn hinnan, tai ilmoituksen, jos tuote on loppu tai sita ei ole olemassa.
+//halvimman loydetyn hinnan, tai ilmoituksen, jos tuote on loppu tai sita ei ole olemassa. Lisaksi
+//tulostaa sijainnit, josta tuotteet saa halvimmalla hinnalla.
 void cheapest(vector <string> command, map<string, map<string, vector<Product>>> &store_container){
     bool in_stock = false;
     string current_price = "0";
@@ -169,31 +191,44 @@ void cheapest(vector <string> command, map<string, map<string, vector<Product>>>
                     //vertaillaan merkkijonoja double:na ja jos uusi arvo on suurempi kuin aiempi
                     //korvataan vanha uudella.
                     if(product.price != "out-of-stock" ){
-                        available_stores.insert(store.first + " " + location.first);
                         if(current_price == "0"){
                             current_price = product.price;
-                        }else
-                            if(stod(current_price) > stod(product.price))
+                        }
+
+                        //Jos tuote loytyy halvemmalla hinnalla, available_stores alustetaan ja uusi
+                        //kaupan sijainti lisataan listaan. Muuten vain uusi kaupan sijainti lisataan
+                        //listaan.
+                        else{
+                            if(stod(current_price) > stod(product.price)){
+                                available_stores.clear();
+                                available_stores.insert(store.first + " " + location.first);
                                 current_price = product.price;
+                            }
+                            else if(stod(current_price) == stod(product.price))
+                                available_stores.insert(store.first + " " + location.first);
+                        }
                     }
                 }
             }
         }
     }
 
+    //Tulostaa virheilmoituksen, tai hinnan ja alkiot available_stores:sta.
     if (in_stock == false)
             cout << "Product is not part of product selection." << endl;
+
     else if ( current_price == "0")
         cout << "The product is temporarily out of stock everywhere." << endl;
+
     else{
         cout << current_price << " euros" << endl;
         for (auto str : available_stores){
             cout << str << endl;
         }
     }
-
-
 }
+
+
 //Käy for looppilla läpi jokaikisen tuotteen, ja jos tuote ei ole vielä products_alphabetical vectorissa,
 //lisää sen vectoriin. Kun kaikki tuotteet on käyty läpi, järjestää vectorin aakkosjärjestykseen ja tulostaa sen.
 void products(map<string, map<string, vector<Product>>> &store_container){
@@ -227,19 +262,19 @@ std::vector<std::string> split(const std::string& s, const char delimiter){
     std::vector<std::string> result;
     std::string tmp = s;
 
-    while(tmp.find(delimiter) != std::string::npos)
-    {
+    while(tmp.find(delimiter) != std::string::npos){
         std::string new_part = tmp.substr(0, tmp.find(delimiter));
         tmp = tmp.substr(tmp.find(delimiter)+1, tmp.size());
-        if(not (new_part.empty()))
-        {
+
+        if(not (new_part.empty())){
             result.push_back(new_part);
         }
     }
-    if(not (tmp.empty()))
-    {
+
+    if(not (tmp.empty())){
         result.push_back(tmp);
     }
+
     return result;
 }
 
@@ -247,9 +282,10 @@ std::vector<std::string> split(const std::string& s, const char delimiter){
 int main()
 {
     map<string, map<string, vector<Product>>>::iterator it;
+
+    //Varsinaisen tietorakenteen alustus.
     map<string, map<string, vector<Product>>> store_container;
     string file_name;
-    map <string, vector<Product>> location;
 
     //Pyytaa luettavan tiedoston nimea ja luo tiedosto-olion
     cout << "Input file: ";
@@ -284,7 +320,6 @@ int main()
             add_chain(chain, store_container);
             add_location(store_container, location_name, chain);
             add_product(product_name, price, product, chain, store_container, location_name);    
-
         }
         file.close();
 
@@ -325,7 +360,5 @@ int main()
         }
         else
             std::cout << "Error: unknown command" << std::endl;
-
-
     }
 }
