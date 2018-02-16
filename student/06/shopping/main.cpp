@@ -10,13 +10,16 @@ using namespace std;
 struct Product {
     string product_name;
     string price;
-
 };
 
 void add_chain(string chain, map<string, map<string, vector<Product>>> &store_container, map <string, vector<Product>> location){
+
     if (store_container.find(chain) == store_container.end())
+    {
+        map<string, vector<Product>> location;
         store_container[chain] = location;
     }
+}
 
 
 //void add_product(string tuote, string price, Product &product, string store, map <string, vector<Product>> location, map<string, map<string, vector<Product>>> &store_container, vector <Product> &product_list){
@@ -33,9 +36,7 @@ void add_chain(string chain, map<string, map<string, vector<Product>>> &store_co
 
 void add_location(map<string, map<string, vector<Product>>> &store_container, string store, map <string, vector<Product>> &location, string chain){
     vector<Product> product_list;
-    store_container[chain].insert({store, product_list});
-
-}
+    store_container[chain].insert({store, product_list});}
 
 void chains(map<string, map<string, vector<Product>>> &store_container){
     for(auto i : store_container){
@@ -87,10 +88,9 @@ int main()
     cout << "Input file: " << endl;
     getline(cin, file_name);
     ifstream file(file_name);
-    if ( not file){
+    if (!file.is_open()){
         cout << "Error: the input file cannot be opened";
     }
-
     //Tiedosto saadaan avattua
     else{
         string line;
@@ -110,9 +110,6 @@ int main()
             add_chain(chain, store_container, location);
             add_location(store_container, store, location, chain);
             //add_product(tuote, price, product, chain, location, store_container, product_list);
-
-
-
         }for(auto i : store_container){
             cout << i.first << endl;
         }
