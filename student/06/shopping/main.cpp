@@ -224,7 +224,7 @@ int main()
     map <string, vector<Product>> location;
 
     //Pyytaa luettavan tiedoston nimea ja luo tiedosto-olion
-    cout << "Input file: " << endl;
+    cout << "Input file: ";
     getline(cin, file_name);
     ifstream file(file_name);
     if (!file.is_open()){
