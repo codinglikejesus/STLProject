@@ -54,7 +54,7 @@ void chains(map<string, map<string, vector<Product>>> &store_container){
                 cout << i.first << endl;}
 }
 void stores(map<string, map<string, vector<Product>>> &store_container, string store_name){
-    for(auto i : store_container){
+    for(auto i : store_container[store_name]){
         cout << i.first << endl;
 }
 }
@@ -68,7 +68,7 @@ void products(std::vector<string> command){
 cout << "toimii"<< endl;
 }
 
-std::vector<std::string> split(const std::string& s, char delimiter){
+std::vector<std::string> split(const std::string& s, const char delimiter, bool ignore_empty = false){
     std::vector<std::string> result;
     std::string tmp = s;
 
@@ -76,12 +76,12 @@ std::vector<std::string> split(const std::string& s, char delimiter){
     {
         std::string new_part = tmp.substr(0, tmp.find(delimiter));
         tmp = tmp.substr(tmp.find(delimiter)+1, tmp.size());
-        if(not new_part.empty())
+        if(not (ignore_empty and new_part.empty()))
         {
             result.push_back(new_part);
         }
     }
-    if(not tmp.empty())
+    if(not (ignore_empty and tmp.empty()))
     {
         result.push_back(tmp);
     }
@@ -129,9 +129,9 @@ int main()
 
     }while(true){
         string input;
-        cout << "> "; cin >> input;
+        cout << "> "; getline(cin, input);
         char delimiter = ' ';
-        std::vector<string> command = split(input, delimiter);
+        vector<string> command = split(input, delimiter);
         if(command.at(0) == "chains"){
             chains(store_container);
         }else if(command.at(0) == "stores"){
