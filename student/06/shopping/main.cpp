@@ -72,13 +72,9 @@ void add_chain(string chain, map<string, map<string, vector<Product>>> &store_co
 void add_product(string product_name, string price, Product &product, string chain, map<string, map<string, vector<Product>>> &store_container, string location_name){
     bool flag = true;
 
-    //Antaa structi-oliolle nimen ja hinnan.
-    product.product_name = product_name;
-    product.price = price;
-
     //Kay jokaisen tuotteen listasta lapi, ja tarkistaa etta loytyyko
     //listasta jo lisattava tuote.
-    for ( auto a : store_container[chain][location_name]){
+    for ( auto &a : store_container[chain][location_name]){
 
         //Jos loytyy, muuttaa listasta loytyvan tuotteen hinnan uudella hinnalla.
         if ( a.product_name == product_name){
@@ -89,8 +85,12 @@ void add_product(string product_name, string price, Product &product, string cha
     }
 
     //Lisaa uuden tuotteen listaan jos sita ei loytynyt entuudestaan.
-    if (flag != false)
+    if (flag != false){
+        //Antaa structi-oliolle nimen ja hinnan.
+        product.product_name = product_name;
+        product.price = price;
         store_container[chain][location_name].push_back(product);
+    }
 }
 
 
@@ -152,10 +152,17 @@ void selection(std::vector<string> command, map<string, map<string, vector<Produ
 
         //Sijoittaa product_set:iin tuotteen nimen ja joko "out of stock" tai hinnan.
         for ( auto product : store_container[store_name][store_location]){
-            if ( product.price == "out-of-stock")
-                product_set.insert(product.product_name + " out of stock");
-            else
-                product_set.insert(product.product_name + " " + product.price);
+            if ( find(product_set.begin(), product_set.end(), product.product_name) == product_set.end()){
+                if ( product.price == "out-of-stock")
+                    product_set.insert(product.product_name + " out of stock");
+                else
+                    product_set.insert(product.product_name + " " + product.price);
+            }
+            else{
+                set<string>::iterator it = find(product_set.begin(), product_set.end(), product.product_name);
+                product_set.erase(it);
+                product_set.insert(product.price);
+            }
         }
     }
 
