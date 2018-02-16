@@ -11,13 +11,17 @@
 
 using namespace std;
 
+//Tuote struct
 struct Product {
     string product_name;
     string price;
 };
 
+//Lisaa store_container rakenteeseen uuden ketjun
 void add_chain(string chain, map<string, map<string, vector<Product>>> &store_container, map <string, vector<Product>> location){
 
+    //Tarkistaa loytyyko kyseinen ketju jo rakenteesta, ja lisaa uuden
+    //jos ei loydy
     if (store_container.find(chain) == store_container.end())
     {
         map<string, vector<Product>> location;
@@ -25,11 +29,13 @@ void add_chain(string chain, map<string, map<string, vector<Product>>> &store_co
     }
 }
 
-
+//Lisaa tuotteen ketju/sijainti rakenteeseen
 void add_product(string product_name, string price, Product &product, string chain, map<string, map<string, vector<Product>>> &store_container, string location_name){
     bool flag = true;
+    //Antaa structi-oliolle nimen ja hinnan
     product.product_name = product_name;
     product.price = price;
+
     for ( auto a : store_container[chain][location_name]){
         if ( a.product_name == product_name){
             a.price = price;
@@ -54,10 +60,16 @@ void chains(map<string, map<string, vector<Product>>> &store_container){
                 cout << i.first << endl;}
 }
 void stores(std::vector<string> command){
-cout << "toimii"<< endl;
+
 }
-void selection(std::vector<string> command){
-cout << "toimii"<< endl;
+void selection(std::vector<string> command, map<string, map<string, vector<Product>>> &store_container){
+    string store_name = command.at(1);
+    string store_location = command.at(2);
+    for ( auto a : store_container[store_name][store_location]){
+        cout << a.product_name << " " << a.price << endl;
+    }
+
+
 }
 void cheapest(std::vector<string> command){
 cout << "toimii"<< endl;
@@ -130,19 +142,21 @@ int main()
         string input;
         cout << "> "; cin >> input;
         std::vector<string> command = split(input);
-        if(command.at(0) == "chains"){
+        if(command.at(0) == "chains")
             chains(store_container);
-        }else if(command.at(0) == "stores"){
+        else if(command.at(0) == "stores")
             stores(command);
-        }else if(command.at(0) == "selection"){
-            selection(command);
-        }else if(command.at(0) == "cheapest"){
+        else if(command.at(0) == "selection")
+            selection(command, store_container);
+        else if(command.at(0) == "cheapest")
             cheapest(command);
-        }else if(command.at(0) == "products"){
+        else if(command.at(0) == "products")
             products(command);
-        }else{
+        else if(command.at(0) == "quit")
+            return EXIT_SUCCESS;
+        else
             std::cout << "Error: unknown command" << std::endl;
-        }
+
 
     }
 
