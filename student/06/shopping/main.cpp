@@ -1,3 +1,7 @@
+//Authors:
+//Luukas Lusetti, 255162,  luukas.lusetti@student.tut.fi
+//Matti Tuomela, 267013, matti.tuomela@student.tut.fi
+
 #include <iostream>
 #include <fstream>
 #include <string>
@@ -22,21 +26,28 @@ void add_chain(string chain, map<string, map<string, vector<Product>>> &store_co
 }
 
 
-//void add_product(string tuote, string price, Product &product, string store, map <string, vector<Product>> location, map<string, map<string, vector<Product>>> &store_container, vector <Product> &product_list){
-  //  product.product_name = tuote;
-    //product.price = price;
-    //for ( auto a : product_list){
-      //  if ( a.product_name == tuote){
-        //    a.price = price;
-          //  break;
-        //}
-    //}
-    //product_list.push_back(product);
-//}
+void add_product(string product_name, string price, Product &product, string chain, map<string, map<string, vector<Product>>> &store_container, string location_name){
+    bool flag = true;
+    product.product_name = product_name;
+    product.price = price;
+    for ( auto a : store_container[chain][location_name]){
+        if ( a.product_name == product_name){
+            a.price = price;
+            flag = false;
+            break;
+
+        }
+    }
+    if (flag != false)
+        store_container[chain][location_name].push_back(product);
+}
 
 void add_location(map<string, map<string, vector<Product>>> &store_container, string store, map <string, vector<Product>> &location, string chain){
     vector<Product> product_list;
-    store_container[chain].insert({store, product_list});}
+    if ( store_container[chain].find(store) != store_container[chain].end())
+        store_container[chain].insert({store, product_list});
+
+}
 
 void chains(map<string, map<string, vector<Product>>> &store_container){
     for(auto i : store_container){
@@ -104,13 +115,13 @@ int main()
 
             Product product;
             string chain = line_split.at(0);
-            string store = line_split.at(1);
-            string tuote = line_split.at(2);
+            string location_name = line_split.at(1);
+            string product_name = line_split.at(2);
             string price = line_split.at(3);
 
             add_chain(chain, store_container, location);
-            add_location(store_container, store, location, chain);
-            //add_product(tuote, price, product, chain, location, store_container, product_list);
+            add_location(store_container, location_name, location, chain);
+            add_product(product_name, price, product, chain, store_container, location_name);
         }for(auto i : store_container){
             cout << i.first << endl;
         }
