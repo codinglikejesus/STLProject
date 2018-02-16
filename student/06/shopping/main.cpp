@@ -64,9 +64,24 @@ cout << "toimii"<< endl;
 void cheapest(std::vector<string> command){
 cout << "toimii"<< endl;
 }
-void products(std::vector<string> command){
-cout << "toimii"<< endl;
+//Käy for looppilla läpi jokaikisen tuotteen, ja jos tuote ei ole vielä products_alphabetical vectoriin,
+//lisää sen vectoriin. Kun kaikki tuotteet on käyty läpi, järjestää vectorin aakkosjärjestykseen ja tulostaa sen.
+void products(map<string, map<string, vector<Product>>> &store_container){
+vector<string> products_alphabetical;
+for(auto chain : store_container){
+    for(auto store_location : chain.second){
+        for(auto products : store_location.second){
+            if((find(products_alphabetical.begin(), products_alphabetical.end(), products.product_name) == products_alphabetical.end())){
+                products_alphabetical.push_back(products.product_name);
+               }
+            }
+        }
+    }sort(products_alphabetical.begin(), products_alphabetical.end());
+     for(auto it : products_alphabetical){
+         cout << it << endl;
+     }
 }
+
 
 std::vector<std::string> split(const std::string& s, const char delimiter, bool ignore_empty = false){
     std::vector<std::string> result;
@@ -87,9 +102,6 @@ std::vector<std::string> split(const std::string& s, const char delimiter, bool 
     }
     return result;
 }
-
-
-
 int main()
 {
     map<string, map<string, vector<Product>>>::iterator it;
@@ -122,10 +134,7 @@ int main()
             add_chain(chain, store_container, location);
             add_location(store_container, location_name, location, chain);
             add_product(product_name, price, product, chain, store_container, location_name);
-        }for(auto i : store_container){
-            cout << i.first << endl;
         }
-
 
     }while(true){
         string input;
@@ -141,7 +150,7 @@ int main()
         }else if(command.at(0) == "cheapest"){
             cheapest(command);
         }else if(command.at(0) == "products"){
-            products(command);
+            products(store_container);
         }else{
             std::cout << "Error: unknown command" << std::endl;
         }
