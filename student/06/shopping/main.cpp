@@ -19,6 +19,7 @@ struct Product {
 
 };
 
+//Tarkistaa onko parametreja oikea maara, ja palauttaa tarkastelun mukaisen arvon
 bool number_of_params(vector<string> command, int number){
     if(command.size() != number){
         cout << "Error: error in command " << command.at(0) << endl;
@@ -85,8 +86,14 @@ void chains(map<string, map<string, vector<Product>>> &store_container){
 //Ottaa jonkin kauppaketjun parametrina ja tulostaa kyseisen ketjun jokaisen
 //sijainnin.
 void stores(map<string, map<string, vector<Product>>> &store_container, string store_name){
-    for(auto i : store_container[store_name]){
-        cout << i.first << endl;
+    if ( store_container.find(store_name) == store_container.end()){
+        cout << "Error: unknown chain" << endl;
+        return;
+    }
+    else{
+        for(auto i : store_container[store_name]){
+            cout << i.first << endl;
+        }
     }
 }
 
@@ -95,24 +102,49 @@ void stores(map<string, map<string, vector<Product>>> &store_container, string s
 void selection(std::vector<string> command, map<string, map<string, vector<Product>>> &store_container){
     string store_name = command.at(1);
     string store_location = command.at(2);
-    for ( auto product : store_container[store_name][store_location]){
-        if ( product.price == "out-of-stock")
-            cout << product.product_name << " out of stock" << endl;
-        else
-            cout << product.product_name << " " << product.price << endl;
+    if ( store_container.find(store_name) == store_container.end()){
+        cout << "Error: unknown chain" << endl;
+        return;
+    }
+    else if (store_container[store_name].find(store_location) == store_container[store_name].end()){
+        cout << "Error: unknown location" << endl;
+        return;
     }
 
-
+    else{
+        for ( auto product : store_container[store_name][store_location]){
+            if ( product.price == "out-of-stock")
+                cout << product.product_name << " out of stock" << endl;
+            else
+                cout << product.product_name << " " << product.price << endl;
+        }
+    }
 }
+
+//Ottaa parametreina tuoteen jonka hintaa tarkastellaan ja tietorakenteen. Tulostaa tuotteen
+//halvimman loydetyn hinnan, tai ilmoituksen, jos tuote on loppu tai sita ei ole olemassa.
 void cheapest(vector <string> command, map<string, map<string, vector<Product>>> &store_container){
     bool in_stock = false;
     string current_price = "0";
     string current_product = command.at(1);
+
+    //Iteroi lapi jokaisen ketjun
     for ( auto store : store_container){
+
+        //Kay lapi jokaisen sijainnin ketjulle
         for ( auto location : store.second){
+
+            //Kay lapi jokaisen tuotteen kyseiselle kaupalle
             for ( auto product : location.second){
+
+                //Tarkistaa onko tuote jota tarkastellaan sama kuin parametrina saatu merkkijono.
                 if ( current_product == product.product_name){
+
                     in_stock = true;
+
+                    //Jos tuotetta on saatavilla, ja current_price:lle on asetettu hinta,
+                    //vertaillaan merkkijonoja double:na ja jos uusi arvo on suurempi kuin aiempi
+                    //korvataan vanha uudella.
                     if(product.price != "out-of-stock" ){
                         if(current_price == "0"){
                             current_price = product.price;
@@ -124,6 +156,7 @@ void cheapest(vector <string> command, map<string, map<string, vector<Product>>>
             }
         }
     }
+
     if (in_stock == false)
             cout << "Product is not part of product selection." << endl;
     else if ( current_price == "0")
@@ -133,21 +166,28 @@ void cheapest(vector <string> command, map<string, map<string, vector<Product>>>
 
 
 }
-//Käy for looppilla läpi jokaikisen tuotteen, ja jos tuote ei ole vielä products_alphabetical vectoriin,
+//Käy for looppilla läpi jokaikisen tuotteen, ja jos tuote ei ole vielä products_alphabetical vectorissa,
 //lisää sen vectoriin. Kun kaikki tuotteet on käyty läpi, järjestää vectorin aakkosjärjestykseen ja tulostaa sen.
 void products(map<string, map<string, vector<Product>>> &store_container){
 vector<string> products_alphabetical;
+
 for(auto chain : store_container){
     for(auto store_location : chain.second){
         for(auto products : store_location.second){
-            if((find(products_alphabetical.begin(), products_alphabetical.end(), products.product_name) == products_alphabetical.end())){
-                products_alphabetical.push_back(products.product_name);
-               }
+
+            //Tarkistaa loytyyko tuote listasta products_alphabetical.
+            if((find(products_alphabetical.begin(), products_alphabetical.end(), products.product_name) == products_alphabetical.end()))
+                products_alphabetical.push_back(products.product_name);              
             }
         }
-    }sort(products_alphabetical.begin(), products_alphabetical.end());
-     for(auto it : products_alphabetical){
-         cout << it << endl;
+    }
+
+    //Lajittelee tuoteet aakkosjärjestykseen vektorissa.
+    sort(products_alphabetical.begin(), products_alphabetical.end());
+
+    //Tulostaa tuoteet vektorista.
+    for(auto it : products_alphabetical){
+        cout << it << endl;
      }
 }
 
@@ -174,6 +214,8 @@ std::vector<std::string> split(const std::string& s, const char delimiter){
     }
     return result;
 }
+
+
 int main()
 {
     map<string, map<string, vector<Product>>>::iterator it;
