@@ -18,6 +18,23 @@ struct Product {
     string price;
 
 };
+bool empty_line(vector<string> line_split){
+    for ( auto line : line_split){
+        if ( line == "")
+            return true;
+        else
+            return false;
+    }
+    return true;
+}
+
+bool is_line_correct(vector<string> line_split){
+    if ( line_split.size() != 4 or empty_line(line_split)){
+        cout << "Error: the file has an erroneous line" << endl;
+        return false;
+    }
+    return true;
+}
 
 //Tarkistaa onko parametreja oikea maara, ja palauttaa tarkastelun mukaisen arvon
 bool number_of_params(vector<string> command, unsigned int number){
@@ -87,7 +104,7 @@ void chains(map<string, map<string, vector<Product>>> &store_container){
 //sijainnin.
 void stores(map<string, map<string, vector<Product>>> &store_container, string store_name){
     if ( store_container.find(store_name) == store_container.end()){
-        cout << "Error: unknown chain" << endl;
+        cout << "Error: an unknown chain" << endl;
         return;
     }
     else{
@@ -100,6 +117,7 @@ void stores(map<string, map<string, vector<Product>>> &store_container, string s
 //Ottaa parametreinaan ketjun ja sijainnin, ja tulostaa kyseisen kaupan tuotteiden nimet ja
 //hinnat aakkosjarjestyksessa.
 void selection(std::vector<string> command, map<string, map<string, vector<Product>>> &store_container){
+    set <string> product_set;
     string store_name = command.at(1);
     string store_location = command.at(2);
     if ( store_container.find(store_name) == store_container.end()){
@@ -107,18 +125,22 @@ void selection(std::vector<string> command, map<string, map<string, vector<Produ
         return;
     }
     else if (store_container[store_name].find(store_location) == store_container[store_name].end()){
-        cout << "Error: unknown location" << endl;
+        cout << "Error: unknown store" << endl;
         return;
     }
 
     else{
+
         for ( auto product : store_container[store_name][store_location]){
             if ( product.price == "out-of-stock")
-                cout << product.product_name << " out of stock" << endl;
+                product_set.insert(product.product_name + " out of stock");
             else
-                cout << product.product_name << " " << product.price << endl;
+                product_set.insert(product.product_name + " " + product.price);
+
         }
     }
+    for( auto product : product_set)
+        cout << product << endl;
 }
 
 //Ottaa parametreina tuoteen jonka hintaa tarkastellaan ja tietorakenteen. Tulostaa tuotteen
@@ -126,6 +148,7 @@ void selection(std::vector<string> command, map<string, map<string, vector<Produ
 void cheapest(vector <string> command, map<string, map<string, vector<Product>>> &store_container){
     bool in_stock = false;
     string current_price = "0";
+    set <string> available_stores;
     string current_product = command.at(1);
 
     //Iteroi lapi jokaisen ketjun
@@ -146,6 +169,7 @@ void cheapest(vector <string> command, map<string, map<string, vector<Product>>>
                     //vertaillaan merkkijonoja double:na ja jos uusi arvo on suurempi kuin aiempi
                     //korvataan vanha uudella.
                     if(product.price != "out-of-stock" ){
+                        available_stores.insert(store.first + " " + location.first);
                         if(current_price == "0"){
                             current_price = product.price;
                         }else
@@ -161,34 +185,38 @@ void cheapest(vector <string> command, map<string, map<string, vector<Product>>>
             cout << "Product is not part of product selection." << endl;
     else if ( current_price == "0")
         cout << "The product is temporarily out of stock everywhere." << endl;
-    else
+    else{
         cout << current_price << " euros" << endl;
+        for (auto str : available_stores){
+            cout << str << endl;
+        }
+    }
 
 
 }
 //Käy for looppilla läpi jokaikisen tuotteen, ja jos tuote ei ole vielä products_alphabetical vectorissa,
 //lisää sen vectoriin. Kun kaikki tuotteet on käyty läpi, järjestää vectorin aakkosjärjestykseen ja tulostaa sen.
 void products(map<string, map<string, vector<Product>>> &store_container){
-vector<string> products_alphabetical;
+    vector<string> products_alphabetical;
 
-for(auto chain : store_container){
-    for(auto store_location : chain.second){
-        for(auto products : store_location.second){
+    for(auto chain : store_container){
+        for(auto store_location : chain.second){
+            for(auto products : store_location.second){
 
-            //Tarkistaa loytyyko tuote listasta products_alphabetical.
-            if((find(products_alphabetical.begin(), products_alphabetical.end(), products.product_name) == products_alphabetical.end()))
-                products_alphabetical.push_back(products.product_name);              
+                //Tarkistaa loytyyko tuote listasta products_alphabetical.
+                if((find(products_alphabetical.begin(), products_alphabetical.end(), products.product_name) == products_alphabetical.end()))
+                    products_alphabetical.push_back(products.product_name);
+                }
             }
         }
-    }
 
-    //Lajittelee tuoteet aakkosjärjestykseen vektorissa.
-    sort(products_alphabetical.begin(), products_alphabetical.end());
+        //Lajittelee tuoteet aakkosjärjestykseen vektorissa.
+        sort(products_alphabetical.begin(), products_alphabetical.end());
 
-    //Tulostaa tuoteet vektorista.
-    for(auto it : products_alphabetical){
-        cout << it << endl;
-     }
+        //Tulostaa tuoteet vektorista.
+        for(auto it : products_alphabetical){
+            cout << it << endl;
+        }
 }
 
 
@@ -228,7 +256,8 @@ int main()
     getline(cin, file_name);
     ifstream file(file_name);
     if (!file.is_open()){
-        cout << "Error: the input file cannot be opened";
+        cout << "Error: the input file cannot be opened" << endl;
+        return EXIT_FAILURE;
     }
 
     //Tiedosto saadaan avattua
@@ -240,6 +269,10 @@ int main()
             //mappiin.
             vector <string> line_split;
             line_split = split(line, ';');
+
+            if(not is_line_correct(line_split)){
+                return EXIT_FAILURE;
+            }
 
             Product product;
             string chain = line_split.at(0);
@@ -253,6 +286,7 @@ int main()
             add_product(product_name, price, product, chain, store_container, location_name);    
 
         }
+        file.close();
 
     }while(true){
         //Ohjelma pyytaa kayttajalta komentoa
