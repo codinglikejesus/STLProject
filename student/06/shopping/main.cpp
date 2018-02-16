@@ -42,8 +42,10 @@ void chains(map<string, map<string, vector<Product>>> &store_container){
     for(auto i : store_container){
                 cout << i.first << endl;}
 }
-void stores(std::vector<string> command){
-cout << "toimii"<< endl;
+void stores(map<string, map<string, vector<Product>>> &store_container, string store_name){
+    for(auto i : store_container){
+        cout << i.first << endl;
+}
 }
 void selection(std::vector<string> command){
 cout << "toimii"<< endl;
@@ -55,8 +57,7 @@ void products(std::vector<string> command){
 cout << "toimii"<< endl;
 }
 
-std::vector<std::string> split(const std::string& s){
-    const char* delimiter = ";";
+std::vector<std::string> split(const std::string& s, char delimiter){
     std::vector<std::string> result;
     std::string tmp = s;
 
@@ -99,7 +100,7 @@ int main()
             //Jaetaan rivi osiin ja sijoitetaan vektoriin line_split, sijoitetaan osat store_container
             //mappiin.
             vector <string> line_split;
-            line_split = split(line);
+            line_split = split(line, ';');
 
             Product product;
             string chain = line_split.at(0);
@@ -118,11 +119,12 @@ int main()
     }while(true){
         string input;
         cout << "> "; cin >> input;
-        std::vector<string> command = split(input);
+        char delimiter = ' ';
+        std::vector<string> command = split(input, delimiter);
         if(command.at(0) == "chains"){
             chains(store_container);
         }else if(command.at(0) == "stores"){
-            stores(command);
+            stores(store_container, command.at(1));
         }else if(command.at(0) == "selection"){
             selection(command);
         }else if(command.at(0) == "cheapest"){
