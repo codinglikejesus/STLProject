@@ -20,7 +20,7 @@ struct Product {
 };
 
 //Tarkistaa onko parametreja oikea maara, ja palauttaa tarkastelun mukaisen arvon
-bool number_of_params(vector<string> command, int number){
+bool number_of_params(vector<string> command, unsigned int number){
     if(command.size() != number){
         cout << "Error: error in command " << command.at(0) << endl;
         return false;
@@ -29,7 +29,7 @@ bool number_of_params(vector<string> command, int number){
 }
 
 //Lisaa store_container rakenteeseen uuden ketjun
-void add_chain(string chain, map<string, map<string, vector<Product>>> &store_container, map <string, vector<Product>> location){
+void add_chain(string chain, map<string, map<string, vector<Product>>> &store_container){
 
     //Tarkistaa loytyyko kyseinen ketju jo rakenteesta, ja lisaa uuden
     //jos ei loydy
@@ -66,7 +66,7 @@ void add_product(string product_name, string price, Product &product, string cha
 }
 
 //Lisaa sijainnin kauppaketjulle
-void add_location(map<string, map<string, vector<Product>>> &store_container, string location_name, map <string, vector<Product>> &location, string chain){
+void add_location(map<string, map<string, vector<Product>>> &store_container, string location_name, string chain){
     vector<Product> product_list;
 
     //Tarkistaa loytyyko sijaintia kyseiselle kaupaketjulle, ja jos ei loydy, luo
@@ -248,8 +248,8 @@ int main()
             string price = line_split.at(3);
 
             //Sijoitetaan tieto tietorakenteeseen erillisilla funktioilla
-            add_chain(chain, store_container, location);
-            add_location(store_container, location_name, location, chain);
+            add_chain(chain, store_container);
+            add_location(store_container, location_name, chain);
             add_product(product_name, price, product, chain, store_container, location_name);    
 
         }
