@@ -87,8 +87,11 @@ void stores(map<string, map<string, vector<Product>>> &store_container, string s
 void selection(std::vector<string> command, map<string, map<string, vector<Product>>> &store_container){
     string store_name = command.at(1);
     string store_location = command.at(2);
-    for ( auto a : store_container[store_name][store_location]){
-        cout << a.product_name << " " << a.price << endl;
+    for ( auto product : store_container[store_name][store_location]){
+        if ( product.price == "out-of-stock")
+            cout << product.product_name << " out of stock" << endl;
+        else
+            cout << product.product_name << " " << product.price << endl;
     }
 
 
@@ -122,13 +125,29 @@ void cheapest(vector <string> command, map<string, map<string, vector<Product>>>
 
 
 }
-void products(std::vector<string> command){
-cout << "toimii"<< endl;
+//Käy for looppilla läpi jokaikisen tuotteen, ja jos tuote ei ole vielä products_alphabetical vectoriin,
+//lisää sen vectoriin. Kun kaikki tuotteet on käyty läpi, järjestää vectorin aakkosjärjestykseen ja tulostaa sen.
+void products(map<string, map<string, vector<Product>>> &store_container){
+vector<string> products_alphabetical;
+for(auto chain : store_container){
+    for(auto store_location : chain.second){
+        for(auto products : store_location.second){
+            if((find(products_alphabetical.begin(), products_alphabetical.end(), products.product_name) == products_alphabetical.end())){
+                products_alphabetical.push_back(products.product_name);
+               }
+            }
+        }
+    }sort(products_alphabetical.begin(), products_alphabetical.end());
+     for(auto it : products_alphabetical){
+         cout << it << endl;
+     }
 }
+
 
 //Ottaa parametrina jaettavan merkkijonon ja merkkijonon jakajan. Palauttaa vektorin
 //joka sisaltaa merkkijonon osat.
 std::vector<std::string> split(const std::string& s, const char delimiter){
+
     std::vector<std::string> result;
     std::string tmp = s;
 
@@ -147,9 +166,6 @@ std::vector<std::string> split(const std::string& s, const char delimiter){
     }
     return result;
 }
-
-
-
 int main()
 {
     map<string, map<string, vector<Product>>>::iterator it;
@@ -185,6 +201,7 @@ int main()
             add_chain(chain, store_container, location);
             add_location(store_container, location_name, location, chain);
             add_product(product_name, price, product, chain, store_container, location_name);    
+
         }
 
     }while(true){
@@ -203,23 +220,23 @@ int main()
         else if(command.at(0) == "stores")
             stores(store_container, command.at(1));
 
+
         else if(command.at(0) == "selection")
             selection(command, store_container);
 
         else if(command.at(0) == "cheapest")
             cheapest(command, store_container);
 
-        else if(command.at(0) == "products")
-            products(command);
 
         else if(command.at(0) == "quit")
             return EXIT_SUCCESS;
+
+        else if(command.at(0) == "products")
+            products(store_container);
 
         else
             std::cout << "Error: unknown command" << std::endl;
 
 
     }
-
-
 }
