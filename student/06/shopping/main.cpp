@@ -19,6 +19,14 @@ struct Product {
 
 };
 
+bool number_of_params(vector<string> command, int number){
+    if(command.size() != number){
+        cout << "Error: error in command " << command.at(0) << endl;
+        return false;
+    }else
+        return true;
+}
+
 //Lisaa store_container rakenteeseen uuden ketjun
 void add_chain(string chain, map<string, map<string, vector<Product>>> &store_container, map <string, vector<Product>> location){
 
@@ -214,26 +222,31 @@ int main()
         vector<string> command = split(input, delimiter);
 
         //Kutsuu komentoa vastaavaa funktiota
-        if(command.at(0) == "chains")
-            chains(store_container);
+        if(command.at(0) == "chains"){
+            if(number_of_params(command, 1))
+                chains(store_container);
+        }
+        else if(command.at(0) == "stores"){
+            if(number_of_params(command, 2))
+                stores(store_container, command.at(1));
+        }
 
-        else if(command.at(0) == "stores")
-            stores(store_container, command.at(1));
-
-
-        else if(command.at(0) == "selection")
-            selection(command, store_container);
-
-        else if(command.at(0) == "cheapest")
-            cheapest(command, store_container);
-
+        else if(command.at(0) == "selection"){
+            if(number_of_params(command, 3))
+                selection(command, store_container);
+        }
+        else if(command.at(0) == "cheapest"){
+            if(number_of_params(command, 2))
+                cheapest(command, store_container);
+        }
 
         else if(command.at(0) == "quit")
             return EXIT_SUCCESS;
 
-        else if(command.at(0) == "products")
-            products(store_container);
-
+        else if(command.at(0) == "products"){
+            if(number_of_params(command, 1))
+                products(store_container);
+        }
         else
             std::cout << "Error: unknown command" << std::endl;
 
